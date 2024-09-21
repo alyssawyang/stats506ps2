@@ -5,3 +5,93 @@ format: html
 ---
 
 # Problem 1 - Dice Game
+## 1a
+### Version 1:
+```{r}
+# Version 1: Loop
+play_dice_v1 <- function(num_dice) {
+  profit <- 0
+  
+  for (i in 1:num_dice) {
+    # Costs $2 each roll
+    profit <- profit - 2
+    # Roll a number between 1 and 6
+    roll <- sample(1:6, 1)
+    # If you roll a 3 or 5 you win double the roll
+    if (roll == 3 | roll == 5) {
+      profit <- profit + (2 * roll)
+    }
+  }
+  
+  return(profit)
+}
+```
+
+
+### Version 2:
+```{r}
+# Version 2: Vectorize
+play_dice_v2 <- function(num_dice) {
+  # Vector containing all rolls
+  rolls <- sample(1:6, num_dice, replace = TRUE)
+  # Take only rolls with 3 or 5 and double those values
+  profit <- sum(rolls[rolls == 3 | rolls == 5] * 2)
+  # Subtract cost to play
+  profit <- profit - 2 * num_dice
+  return(profit)
+}
+```
+
+
+### Version 3:
+```{r}
+# Version 3: Collapse into table
+play_dice_v3 <- function(num_dice) {
+  rolls <- sample(1:6, num_dice, replace = TRUE)
+  # Store rolls into a table (contains roll # and # times appeared)
+  rolls_table <- table(rolls)
+  profit <- 0
+  
+  # If roll 3 or 5, multiply times appeared by 2 * roll number
+  if ("3" %in% names(rolls_table)) {
+    profit <- profit + rolls_table[["3"]] * 6
+  }
+  if ("5" %in% names(rolls_table)) {
+    profit <- profit + rolls_table[["5"]] * 10
+  }
+  
+  # Subtract cost to play
+  profit <- profit - 2 * num_dice
+  return(profit)
+}
+```
+
+
+### Version 4:
+```{r}
+# Version 4: Apply
+play_dice_v4 <- function(num_dice) {
+  rolls <- sample(1:6, num_dice, replace = TRUE)
+  
+  # Function that for each roll in rolls, if rolled a 3 or 5, 
+  # return 2 * roll number, else return 0
+  roll_profits <- sapply(rolls, function(roll) {
+    if (roll == 3 | roll == 5) {
+      return(2 * roll)
+    }
+    else {
+      return(0)
+    }
+  })
+  
+  # Sum the total profits for each roll and subtract cost to play
+  profit <- sum(rolls) - 2 * num_dice
+  return(profit)
+}
+```
+
+
+
+
+
+
