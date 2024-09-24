@@ -4,19 +4,26 @@ author: "Alyssa Yang"
 format: html
 ---
 
+Github link: https://github.com/alyssawyang/stats506ps2
+
 # Problem 1 - Dice Game
 ## 1a
 ### Version 1:
 ```{r}
-# Version 1: Loop
+#' Version 1: Loop
+#' Function that implements the dice game using a loop with one iteration being
+#' one roll of the dice
+#'
+#' @param num_dice: A positive integer indicating the number of dice to roll
+#'
+#' @return The total winnings in dollars after all dice are rolled
 play_dice_v1 <- function(num_dice) {
   profit <- 0
-  
+
   for (i in 1:num_dice) {
-    # Costs $2 each roll
-    profit <- profit - 2
-    # Roll a number between 1 and 6
-    roll <- sample(1:6, 1)
+    profit <- profit - 2 # Costs $2 each roll
+    roll <- sample(1:6, 1) # Roll a number between 1 and 6
+    
     # If you roll a 3 or 5 you win double the roll
     if (roll == 3 | roll == 5) {
       profit <- profit + (2 * roll)
@@ -30,14 +37,16 @@ play_dice_v1 <- function(num_dice) {
 
 ### Version 2:
 ```{r}
-# Version 2: Vectorize
+#' Version 2: Vectorize
+#' Function that implements the dice game using built-in R vectorized functions
+#'
+#' @param num_dice: A positive integer indicating the number of dice to roll
+#'
+#' @return The total winnings in dollars after all dice are rolled
 play_dice_v2 <- function(num_dice) {
-  # Vector containing all rolls
-  rolls <- sample(1:6, num_dice, replace = TRUE)
-  # Take only rolls with 3 or 5 and double those values
-  profit <- sum(rolls[rolls == 3 | rolls == 5] * 2)
-  # Subtract cost to play
-  profit <- profit - 2 * num_dice
+  rolls <- sample(1:6, num_dice, replace = TRUE) # Vector containing all output of rolls
+  profit <- sum(rolls[rolls == 3 | rolls == 5] * 2) # Take only rolls with 3 or 5 and double those values
+  profit <- profit - 2 * num_dice # Subtract cost to play
   return(profit)
 }
 ```
@@ -45,23 +54,27 @@ play_dice_v2 <- function(num_dice) {
 
 ### Version 3:
 ```{r}
-# Version 3: Collapse into table
+#' Version 3: Table
+#' Function that implements the dice game by by rolling all the dice into one and 
+#' collapsing the die rolls into a single table
+#'
+#' @param num_dice: A positive integer indicating the number of dice to roll
+#'
+#' @return The total winnings in dollars after all dice are rolled
 play_dice_v3 <- function(num_dice) {
   rolls <- sample(1:6, num_dice, replace = TRUE)
-  # Store rolls into a table (contains roll # and # times appeared)
-  rolls_table <- table(rolls)
+  rolls_table <- table(rolls) # Store rolls into a table (contains roll # and # times appeared)
   profit <- 0
   
-  # If roll 3 or 5, multiply times appeared by 2 * roll number
+  # If 3 or 5, multiply times appeared by 2 * roll number
   if ("3" %in% names(rolls_table)) {
-    profit <- profit + rolls_table[["3"]] * 6
+    profit <- profit + rolls_table[['3']] * 6
   }
   if ("5" %in% names(rolls_table)) {
-    profit <- profit + rolls_table[["5"]] * 10
+    profit <- profit + rolls_table[['5']] * 10
   }
   
-  # Subtract cost to play
-  profit <- profit - 2 * num_dice
+  profit <- profit - 2 * num_dice # Subtract cost to play
   return(profit)
 }
 ```
@@ -69,7 +82,13 @@ play_dice_v3 <- function(num_dice) {
 
 ### Version 4:
 ```{r}
-# Version 4: Apply
+#' Version 4: Apply
+#' Function that implements the dice game by using the sapply function to calculate
+#' profit for each roll in the vector
+#'
+#' @param num_dice: A positive integer indicating the number of dice to roll
+#'
+#' @return The total winnings in dollars after all dice are rolled
 play_dice_v4 <- function(num_dice) {
   rolls <- sample(1:6, num_dice, replace = TRUE)
   
@@ -84,11 +103,158 @@ play_dice_v4 <- function(num_dice) {
     }
   })
   
-  # Sum the total profits for each roll and subtract cost to play
-  profit <- sum(rolls) - 2 * num_dice
+  profit <- sum(roll_profits) - 2 * num_dice # Sum the total profits for each roll and subtract cost to play
   return(profit)
 }
 ```
+
+
+## 1b
+```{r}
+#| code-fold: true
+# Version 1
+cat('Version 1: ', '\n', 'Input 3: ', play_dice_v1(3), '\n', 'Input 3000: ', play_dice_v1(3000), '\n')
+
+# Version 2
+cat('Version 2: ', '\n', 'Input 3: ', play_dice_v2(3), '\n', 'Input 3000: ', play_dice_v2(3000), '\n')
+
+# Version 3
+cat('Version 3: ', '\n', 'Input 3: ', play_dice_v3(3), '\n', 'Input 3000: ', play_dice_v3(3000), '\n')
+
+# Version 4
+cat('Version 4: ', '\n', 'Input 3: ', play_dice_v4(3), '\n', 'Input 3000: ', play_dice_v4(3000), '\n')
+```
+
+
+## 1c
+```{r}
+#| code-fold: true
+# Version 1
+set.seed(123)
+cat('Version 1: ', '\n', 'Input 3: ', play_dice_v1(3), '\n', 'Input 3000: ', play_dice_v1(3000), '\n')
+
+# Version 2
+set.seed(123)
+cat('Version 2: ', '\n', 'Input 3: ', play_dice_v2(3), '\n', 'Input 3000: ', play_dice_v2(3000), '\n')
+
+# Version 3
+set.seed(123)
+cat('Version 3: ', '\n', 'Input 3: ', play_dice_v3(3), '\n', 'Input 3000: ', play_dice_v3(3000), '\n')
+
+# Version 4
+set.seed(123)
+cat('Version 4: ', '\n', 'Input 3: ', play_dice_v4(3), '\n', 'Input 3000: ', play_dice_v4(3000), '\n')
+```
+
+
+## 1d
+```{r}
+library(microbenchmark)
+
+# Performance of all 4 implementations with a low input (1,000)
+microbenchmark(
+  loop = play_dice_v1(1000),
+  vectorize = play_dice_v2(1000),
+  table = play_dice_v3(1000),
+  apply = play_dice_v4(1000)
+)
+```
+```{r}
+# Performance of all 4 implementations with a large input (100,000)
+microbenchmark(
+  loop = play_dice_v1(100000),
+  vectorize = play_dice_v2(100000),
+  table = play_dice_v3(100000),
+  apply = play_dice_v4(100000)
+)
+```
+Using the microbenchmark package, we can see that the speed of the vectorized functions (version 2) is the fastest version by a significant amount. The second fastest is collapsing the rolls into a table, then is using the apply function, and the slowest version by far is by using loops. 
+
+
+## 1e
+```{r}
+#| code-fold: true
+set.seed(123)
+#' Function that runs a Monte Carlo simulation on the dice game utilizing the 
+#' second implementation (vectorized) to determine whether or not the game is fair
+#'
+#' @param num_trials: A positive integer indicating the number of trials to run
+#' @param num_dice: A positive integer indicating the number of dice to roll per trial
+#'
+#' @return The average profit for the player after the given number of Monte Carlo simulations
+monte_carlo_simulation <- function(num_trials, num_dice) {
+  profits <- numeric(num_trials) # Create a vector to store profits from all trials
+  
+  # For each trial, store the output of the second version of the game
+  for (i in 1:num_trials) {
+    profits[i] <- play_dice_v2(num_dice)
+  }
+
+  mean_profit <- mean(profits) # Find the average profit from all trials
+  return(mean_profit)
+}
+
+cat('Average profit after 10,000 Monte Carlo simulations with 1,000 dice: ', monte_carlo_simulation(10000, 1000))
+```
+No, this is not a fair game for the game operator because the average profit after 10,000 Monte Carlo simulations using 1,000 dice each game is $669.99 which indicates that, on average, the player can expect to win a significant amount of money over the course of many games. The game operator will lose more and more money the more times the game is played and thus is not fair and is more favorable towards the player.
+
+
+
+
+# Problem 2 - Linear Regression
+## 2a
+```{r}
+cars <- read.csv('cars.csv')
+
+# Rename column names
+names(cars) <- c('Height', 'Length', 'Width', 'Driveline', 'Engine type', 'Hybrid', 'Number of forward gears', 
+                 'Transmission', 'City mpg', 'Fuel type', 'Highway mpg', 'Classification', 'ID', 'Make', 
+                 'Model year', 'Year', 'Horsepower', 'Torque')
+```
+
+
+## 2b
+```{r}
+# Restrict data to cars whose fuel type is gasoline
+cars <- cars[cars$`Fuel type` == 'Gasoline',]
+```
+
+
+## 2c
+```{r}
+#| code-fold: true
+# Plot a histogram of highway mpg to visualize its distribution
+hist(cars$`Highway mpg`, breaks = 40, xlim = range(cars$`Highway mpg`),
+     main = 'Distribution of Highway Gas Mileage', xlab = 'Highway mpg')
+```
+
+From this graph, we can see that there is a severe outlier to the right of the plot so we remove it as to remove potential bias within our dataset.
+
+```{r}
+#| code-fold: true
+# Find the max value of highway mpg and remove it
+max_val <- summary(cars$`Highway mpg`)['Max.']
+cars <- cars[cars$`Highway mpg` != max_val,]
+
+# Plot new histogram without the outlier
+hist(cars$`Highway mpg`, breaks = 40, xlim = range(cars$`Highway mpg`),
+     main = 'Distribution of Highway Gas Mileage', xlab = 'Highway mpg')
+```
+
+After removing the outlier, we can see that the distribution is slightly right-skewed so we see if the log-transformation of the highway mpg helps normalize the distribution.
+
+```{r}
+#| code-fold: true
+cars$'Log highway mpg' <- log(cars$`Highway mpg`)
+hist(cars$'Log highway mpg', breaks = 40, xlim = range(cars$'Log highway mpg'),
+     main = 'Distribution of Log of Highway Gas Mileage', xlab = 'Log of Highway mpg')
+```
+This distribution does look a lot less skewed than the untransformed variable, so I will use the log-transformation of highway mpg going forward.
+
+
+
+
+
 
 
 
