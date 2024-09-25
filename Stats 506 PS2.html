@@ -220,8 +220,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Version 1:  
- Input 3:  6 
- Input 3000:  2084 </code></pre>
+ Input 3:  0 
+ Input 3000:  1878 </code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -230,8 +230,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Version 2:  
- Input 3:  0 
- Input 3000:  1750 </code></pre>
+ Input 3:  -6 
+ Input 3000:  2412 </code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -240,8 +240,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Version 3:  
- Input 3:  10 
- Input 3000:  2222 </code></pre>
+ Input 3:  0 
+ Input 3000:  2370 </code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
@@ -250,8 +250,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Version 4:  
- Input 3:  6 
- Input 3000:  2322 </code></pre>
+ Input 3:  -6 
+ Input 3000:  2164 </code></pre>
 </div>
 </div>
 </section>
@@ -318,11 +318,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Unit: microseconds
-      expr      min        lq       mean    median        uq       max neval
-      loop 7187.962 7415.8225 8497.11960 7702.3970 8423.6640 20940.323   100
- vectorize   76.341   86.5725   95.40867   91.1355   98.1365   181.661   100
-     table  269.685  291.1085  356.42615  354.0545  385.3335   880.464   100
-     apply  949.694  989.9260 1129.55774 1021.7530 1060.9120  4567.816   100</code></pre>
+      expr      min        lq       mean   median        uq       max neval
+      loop 7116.548 7742.9365 9639.81598 8209.535 9754.4395 33238.241   100
+ vectorize   75.724   86.2115   96.95134   92.768   99.7255   177.557   100
+     table  260.460  323.2645  391.44630  370.923  422.5125  1120.494   100
+     apply  954.992  998.0125 1232.80219 1043.449 1206.9145  6712.603   100</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -335,11 +335,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Unit: milliseconds
-      expr        min         lq       mean     median          uq        max
-      loop 794.583010 863.928756 953.559950 917.314813 1018.520141 1220.26685
- vectorize   6.685035   7.122022   7.907908   7.671696    8.567082   10.61243
-     table  12.376982  14.185005  15.718843  15.361103   16.759720   29.52505
-     apply 107.595525 124.788250 144.217623 136.508321  157.483301  219.71120
+      expr        min         lq      mean     median         uq        max
+      loop 780.090325 836.547708 889.67327 876.487482 917.607637 1319.32486
+ vectorize   6.687355   6.940629  10.24263   7.283881   8.319974  176.22602
+     table  11.690612  13.250927  14.66573  14.062981  15.415090   29.09298
+     apply 106.641161 121.772364 138.20985 133.630874 144.530892  280.27788
  neval
    100
    100
@@ -363,7 +363,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co">#'</span></span>
 <span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="co">#' @return The average profit for the player after the given number of Monte Carlo simulations</span></span>
 <span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>monte_carlo_simulation <span class="ot">&lt;-</span> <span class="cf">function</span>(num_trials, num_dice) {</span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  profits <span class="ot">&lt;-</span> <span class="fu">numeric</span>(num_trials) <span class="co"># Create a vector to store profits from all trials</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  profits <span class="ot">&lt;-</span> <span class="fu">vector</span>() <span class="co"># Create a vector to store profits from all trials</span></span>
 <span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># For each trial, store the output of the second version of the game</span></span>
 <span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>num_trials) {</span>
@@ -374,13 +374,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(mean_profit)</span>
 <span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">'Average profit after 10,000 Monte Carlo simulations with 1,000 dice: '</span>, <span class="fu">monte_carlo_simulation</span>(<span class="dv">10000</span>, <span class="dv">1000</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">'Average profit after 100,000 Monte Carlo simulations with 100 dice: '</span>, <span class="fu">monte_carlo_simulation</span>(<span class="dv">100000</span>, <span class="dv">100</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Average profit after 10,000 Monte Carlo simulations with 1,000 dice:  669.9924</code></pre>
+<pre><code>Average profit after 100,000 Monte Carlo simulations with 100 dice:  66.99924</code></pre>
 </div>
 </div>
-<p>No, this is not a fair game for the game operator because the average profit after 10,000 Monte Carlo simulations using 1,000 dice each game is $669.99 which indicates that, on average, the player can expect to win a significant amount of money over the course of many games. The game operator will lose more and more money the more times the game is played and thus is not fair and is more favorable towards the player.</p>
+<p>No, this is not a fair game for the game operator because the average profit after 100,000 Monte Carlo simulations using 100 dice each game is around $67 which indicates that, on average, the player can expect to win a significant amount of money over the course of many games. The game operator will lose more and more money and thus the game is not fair and is more favorable towards the player.</p>
 </section>
 </section>
 <section id="problem-2---linear-regression" class="level1">
@@ -456,7 +456,105 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>This distribution does look a lot less skewed than the untransformed variable, so I will use the log-transformation of highway mpg going forward.</p>
+<p>This distribution does look a lot less skewed than the un-transformed variable, so I will use the log-transformation of highway mpg going forward.</p>
+</section>
+<section id="d-1" class="level2">
+<h2 class="anchored" data-anchor-id="d-1">2d</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert the year the car was released to a categorical variable</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>cars<span class="sc">$</span>Year <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(cars<span class="sc">$</span>Year)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit linear regression model predicting the log of highway gas mileage</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>lm_highway <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="st">`</span><span class="at">Log highway mpg</span><span class="st">`</span> <span class="sc">~</span> Torque <span class="sc">+</span> Horsepower <span class="sc">+</span> Height <span class="sc">+</span> Length <span class="sc">+</span> Width <span class="sc">+</span> Year, <span class="at">data =</span> cars)</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm_highway)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = `Log highway mpg` ~ Torque + Horsepower + Height + 
+    Length + Width + Year, data = cars)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.54934 -0.09280 -0.00387  0.09913  0.76803 
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  3.508e+00  2.144e-02 163.617  &lt; 2e-16 ***
+Torque      -2.306e-03  6.537e-05 -35.279  &lt; 2e-16 ***
+Horsepower   9.330e-04  6.757e-05  13.807  &lt; 2e-16 ***
+Height       4.116e-04  3.344e-05  12.310  &lt; 2e-16 ***
+Length       2.776e-05  2.622e-05   1.059 0.289808    
+Width       -9.296e-05  2.684e-05  -3.463 0.000538 ***
+Year2010    -2.176e-02  2.008e-02  -1.084 0.278613    
+Year2011    -3.625e-03  2.005e-02  -0.181 0.856532    
+Year2012     3.999e-02  2.021e-02   1.979 0.047876 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.1366 on 4581 degrees of freedom
+Multiple R-squared:  0.582, Adjusted R-squared:  0.5813 
+F-statistic: 797.3 on 8 and 4581 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>We can see from the summary that the coefficient corresponding to torque is -0.002306 and its p-value is &lt;2e-16 which is less than alpha = 0.05. Thus, our results are statistically significant - holding horsepower, height, length, width, and year of the car constant, for every one unit increase in torque, the log of the highway mpg is expected to decrease by approximately 0.002306 mpg.</p>
+</section>
+<section id="e-1" class="level2">
+<h2 class="anchored" data-anchor-id="e-1">2e</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Welcome to emmeans.
+Caution: You lose important information if you filter this package's results.
+See '? untidy'</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Refit model including an interaction between torque and horsepower</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>lm_highway_th <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="st">`</span><span class="at">Log highway mpg</span><span class="st">`</span> <span class="sc">~</span> Torque <span class="sc">*</span> Horsepower <span class="sc">+</span> Height <span class="sc">+</span> Length <span class="sc">+</span> Width <span class="sc">+</span> Year, <span class="at">data =</span> cars)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate interaction plot between torque and mpg as horsepower changes</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="fu">emmip</span>(lm_highway_th, Horsepower <span class="sc">~</span> Torque, </span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">at =</span> <span class="fu">list</span>(<span class="at">Horsepower =</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">300</span>), <span class="at">Torque =</span> <span class="fu">seq</span>(<span class="fu">min</span>(cars<span class="sc">$</span>Torque), <span class="fu">max</span>(cars<span class="sc">$</span>Torque))),</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">ylab =</span> <span class="st">'Log highway mpg'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Stats-506-PS2_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="f" class="level2">
+<h2 class="anchored" data-anchor-id="f">2f</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Store formula and pass into model.matrix()</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>form <span class="ot">&lt;-</span> <span class="st">`</span><span class="at">Log highway mpg</span><span class="st">`</span> <span class="sc">~</span> Torque <span class="sc">+</span> Horsepower <span class="sc">+</span> Height <span class="sc">+</span> Length <span class="sc">+</span> Width <span class="sc">+</span> Year</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(form, <span class="at">data =</span> cars)</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Plug the design matrix into the formula for estimated coefficients</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>beta_hat <span class="ot">&lt;-</span> <span class="fu">solve</span>(<span class="fu">t</span>(X) <span class="sc">%*%</span> X) <span class="sc">%*%</span> <span class="fu">t</span>(X) <span class="sc">%*%</span> cars<span class="sc">$</span><span class="st">`</span><span class="at">Log highway mpg</span><span class="st">`</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>beta_hat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                     [,1]
+(Intercept)  3.508331e+00
+Torque      -2.306333e-03
+Horsepower   9.329999e-04
+Height       4.115953e-04
+Length       2.776194e-05
+Width       -9.295624e-05
+Year2010    -2.176234e-02
+Year2011    -3.625194e-03
+Year2012     3.999171e-02</code></pre>
+</div>
+</div>
 </section>
 </section>
 

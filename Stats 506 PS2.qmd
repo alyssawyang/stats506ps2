@@ -183,7 +183,7 @@ set.seed(123)
 #'
 #' @return The average profit for the player after the given number of Monte Carlo simulations
 monte_carlo_simulation <- function(num_trials, num_dice) {
-  profits <- numeric(num_trials) # Create a vector to store profits from all trials
+  profits <- vector() # Create a vector to store profits from all trials
   
   # For each trial, store the output of the second version of the game
   for (i in 1:num_trials) {
@@ -194,9 +194,9 @@ monte_carlo_simulation <- function(num_trials, num_dice) {
   return(mean_profit)
 }
 
-cat('Average profit after 10,000 Monte Carlo simulations with 1,000 dice: ', monte_carlo_simulation(10000, 1000))
+cat('Average profit after 100,000 Monte Carlo simulations with 100 dice: ', monte_carlo_simulation(100000, 100))
 ```
-No, this is not a fair game for the game operator because the average profit after 10,000 Monte Carlo simulations using 1,000 dice each game is $669.99 which indicates that, on average, the player can expect to win a significant amount of money over the course of many games. The game operator will lose more and more money the more times the game is played and thus is not fair and is more favorable towards the player.
+No, this is not a fair game for the game operator because the average profit after 100,000 Monte Carlo simulations using 100 dice each game is around $67 which indicates that, on average, the player can expect to win a significant amount of money over the course of many games. The game operator will lose more and more money and thus the game is not fair and is more favorable towards the player.
 
 
 
@@ -249,8 +249,48 @@ cars$'Log highway mpg' <- log(cars$`Highway mpg`)
 hist(cars$'Log highway mpg', breaks = 40, xlim = range(cars$'Log highway mpg'),
      main = 'Distribution of Log of Highway Gas Mileage', xlab = 'Log of Highway mpg')
 ```
-This distribution does look a lot less skewed than the untransformed variable, so I will use the log-transformation of highway mpg going forward.
+This distribution does look a lot less skewed than the un-transformed variable, so I will use the log-transformation of highway mpg going forward.
 
+
+## 2d
+```{r}
+#| code-fold: true
+# Convert the year the car was released to a categorical variable
+cars$Year <- as.factor(cars$Year)
+
+# Fit linear regression model predicting the log of highway gas mileage
+lm_highway <- lm(`Log highway mpg` ~ Torque + Horsepower + Height + Length + Width + Year, data = cars)
+summary(lm_highway)
+```
+We can see from the summary that the coefficient corresponding to torque is -0.002306 and its p-value is <2e-16 which is less than alpha = 0.05. Thus, our results are statistically significant - holding horsepower, height, length, width, and year of the car constant, for every one unit increase in torque, the log of the highway mpg is expected to decrease by approximately 0.002306 mpg.
+
+
+## 2e
+```{r}
+#| code-fold: true
+library(emmeans)
+
+# Refit model including an interaction between torque and horsepower
+lm_highway_th <- lm(`Log highway mpg` ~ Torque * Horsepower + Height + Length + Width + Year, data = cars)
+
+# Generate interaction plot between torque and mpg as horsepower changes
+emmip(lm_highway_th, Horsepower ~ Torque, 
+      at = list(Horsepower = c(100, 200, 300), Torque = seq(min(cars$Torque), max(cars$Torque))),
+      ylab = 'Log highway mpg')
+```
+
+
+
+## 2f
+```{r}
+# Store formula and pass into model.matrix()
+form <- `Log highway mpg` ~ Torque + Horsepower + Height + Length + Width + Year
+X <- model.matrix(form, data = cars)
+
+# Plug the design matrix into the formula for estimated coefficients
+beta_hat <- solve(t(X) %*% X) %*% t(X) %*% cars$`Log highway mpg`
+beta_hat
+```
 
 
 
